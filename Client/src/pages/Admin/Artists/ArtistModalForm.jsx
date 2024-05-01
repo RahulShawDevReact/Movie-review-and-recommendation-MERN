@@ -55,7 +55,7 @@ function ArtistModalForm({
       if (response.success) {
         await UpadteArtist(selectedArtist._id, {
           ...selectedArtist,
-          images: [selectedArtist?.images || [], response.data],
+          images: [...(selectedArtist?.images || []), response.data],
         });
       }
       reloadData();
@@ -67,20 +67,21 @@ function ArtistModalForm({
       dispatch(setLoading(false));
     }
   };
-  const deleteImage = async(image) => {
+  const deleteImage = async (image) => {
+    console.log("image",image)
     try {
-      dispatch(setLoading(true))
-      const response=await UpadteArtist(selectedArtist._id,{
-        ...selectedArtist,images:selectedArtist?.images?.filter((item)=>item!== image)
-      })
+      dispatch(setLoading(true));
+      const response = await UpadteArtist(selectedArtist._id, {
+        ...selectedArtist,
+        images: selectedArtist?.images?.filter((item) => item !== image),
+      });
       reloadData();
-      dispatch(setLoading(false))
-      message.success(response.message)
-      setShowArtistModal(false)
+      dispatch(setLoading(false));
+      message.success(response.message);
+      setShowArtistModal(false);
     } catch (error) {
-      message.error(error.message)
-      dispatch(setLoading(false))
-      
+      message.error(error.message);
+      dispatch(setLoading(false));
     }
   };
   return (
@@ -168,32 +169,35 @@ function ArtistModalForm({
             </Form>
           </Item>
           <Item tab="Image" key="2" disabled={!selectedArtist}>
-            <div className="flex flex-wrap gap-5 mb-10">
-            <div className="flex gap-5 border border-dashed ">
-              <img
-                src={selectedArtist?.images?.[1]}
-                alt=""
-                className="w-20 h-20 object-cover"
-              ></img>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-6 h-6 float-right"
-                onClick={() => {
-                  deleteImage(selectedArtist?.images?.[1]);
-                }}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
-                />
-              </svg>
+          <div className="flex flex-wrap gap-5 mb-10">
+            {selectedArtist?.images?.map((image) => (
+              <div key={image} className="flex gap-5 border border-dashed p-3 ">
+                <img
+                  src={selectedArtist?.images?.[0]}
+                  alt=""
+                  className="w-20 h-20 object-cover"
+                ></img>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-6 h-6 float-right"
+                  onClick={() => {
+                    deleteImage(image);
+                  }}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
+                  />
+                </svg>
+              </div>
+            ))}
             </div>
-            </div>
+
             <Upload
               // fileList={[file]}
               onChange={(info) => {

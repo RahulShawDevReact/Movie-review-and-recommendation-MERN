@@ -46,7 +46,7 @@ function Artists() {
       dataIndex: "profilePic",
       render: (text, record) => {
         console.log("record",record)
-        const imageUrl=record?.images?.[1] || ""
+        const imageUrl=record?.images?.[0] || ""
         console.log("imge",imageUrl)
                 return (
           <img className="w-20 h-20 rounded" src={imageUrl} alt="" />
@@ -125,6 +125,7 @@ function Artists() {
   ];
   useEffect(() => {
     fetchAllArtists();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <div>

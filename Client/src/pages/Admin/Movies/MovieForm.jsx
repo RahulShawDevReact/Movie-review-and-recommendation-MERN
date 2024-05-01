@@ -11,7 +11,7 @@ import { AddMovie, GetMovieById } from "../../../apis/movies";
 function MovieForm() {
   const [artists, setArtists] = useState();
   // const [movie,setMovies]=useState({});
-  const [movie,setMovies]=useState({})
+  const [movie,setMovies]=useState()
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const params=useParams()
@@ -51,7 +51,7 @@ function MovieForm() {
       dispatch(setLoading(true));
       const response = await GetMovieById(id);
       console.log("res11===============",response)
-      setMovies([response.data])
+      setMovies(response.data)
       console.log("movie=============",movie)
       dispatch(setLoading(false));
     } catch (error) {
