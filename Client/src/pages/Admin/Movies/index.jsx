@@ -43,9 +43,7 @@ function Movies() {
       title: "Movie",
       dataIndex: "name",
       render: (text, record) => {
-        console.log("record", record);
         const imageUrl = record?.posters?.[0] || "";
-        console.log("imge", imageUrl);
         return <img className="w-20 h-20 rounded" src={imageUrl} alt="" />;
       },
     },
@@ -63,7 +61,6 @@ function Movies() {
       title: "Action",
       dataIndex: "action",
       render: (text, record) => {
-        console.log("record=========in render", record);
         return (
           <div className="flex gap-5">
             <svg
@@ -91,7 +88,6 @@ function Movies() {
               stroke="currentColor"
               className="w-6 h-6"
               onClick={() => {
-                console.log("record._id", record._id);
                 deleteMovie(record._id);
               }}
             >

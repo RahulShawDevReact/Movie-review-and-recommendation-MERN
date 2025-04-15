@@ -1,0 +1,97 @@
+{
+"root": true,
+"parser": "@typescript-eslint/parser",
+"parserOptions": {
+  "ecmaVersion": 2021,
+  "sourceType": "module",
+  "ecmaFeatures": {
+    "jsx": true
+  },
+  // "project": "./tsconfig.json",
+  "tsconfigRootDir": "./"
+},
+"env": {
+  "browser": true,
+  "node": true
+},
+"extends": [
+  "next/core-web-vitals",
+  "eslint:recommended",
+  "plugin:react/recommended",
+  "plugin:@typescript-eslint/recommended",
+  "plugin:jsx-a11y/recommended",
+  "plugin:react-hooks/recommended",
+  "plugin:import/errors",
+  "plugin:import/warnings",
+  "prettier"
+],
+"plugins": ["react", "@typescript-eslint", "jsx-a11y", "import", "prettier"],
+"rules": {
+  "eqeqeq": ["error", "smart"],
+  "prettier/prettier": ["error", {}, { "usePrettierrc": true }],
+  "react/react-in-jsx-scope": "off", // Next.js doesn't require importing React in every file
+  "react/prop-types": "off", // Using TypeScript for prop types
+  "react/jsx-filename-extension": [1, { "extensions": [".tsx", ".jsx"] }],
+  "jsx-a11y/anchor-is-valid": [
+    "error",
+    {
+      "components": ["Link"],
+      "specialLink": ["hrefLeft", "hrefRight"],
+      "aspects": ["invalidHref", "preferButton"]
+    }
+  ],
+  "@typescript-eslint/explicit-function-return-type": "off", // Allow inferred return types
+  "@typescript-eslint/explicit-module-boundary-types": "off", // Allow inferred return types for functions
+  "import/order": [
+    "error",
+    {
+      "groups": [
+        "builtin",
+        "external",
+        "internal",
+        ["parent", "sibling", "index"]
+      ],
+      "newlines-between": "always",
+      "alphabetize": {
+        "order": "asc",
+        "caseInsensitive": true
+      }
+    }
+  ],
+  "import/no-extraneous-dependencies": [
+    "error",
+    {
+      "devDependencies": [
+        "/*.test.tsx",
+        "/*.test.ts",
+        "/*.spec.tsx",
+        "/*.spec.ts"
+      ]
+    }
+  ],
+  "import/prefer-default-export": "off", // Allow named exports
+  "react-hooks/rules-of-hooks": "error",
+  // Other rules
+  "@next/next/no-img-element": "off",
+  "@next/next/next-script-for-ga": "off",
+  "react-hooks/exhaustive-deps": "off",
+  "no-duplicate-imports": "error",
+  "no-unused-vars": "off",
+  "@typescript-eslint/no-unused-vars": [
+    "error",
+    {
+      "argsIgnorePattern": "^_",
+      "varsIgnorePattern": "^_",
+      "caughtErrorsIgnorePattern": "^_"
+    }
+  ]
+},
+"settings": {
+  "import/resolver": {
+    "typescript": {} // this loads <rootdir>/tsconfig.json to eslint
+  },
+  "react": {
+    "version": "detect"
+  }
+}
+}
