@@ -5,7 +5,8 @@ const cloudinaryConfig = require("../config/cloudinaryConfig");
 const authMiddlewares = require("../middlewares/authMiddlewares");
 
 //Multer COnfiguration
-//For file upload
+//For file upload/ From computer to server
+//diskStorage-File upload
 const storage = multer.diskStorage({
     filename: (req, file, cb) => {
         cb(null, Date.now() + file.originalname);
@@ -19,6 +20,7 @@ router.post(
     multer({ storage }).single("image"),
     async (req, res) => {
         try {
+            //Getting url from cloudinary  and sending as response url
             const response = await cloudinaryConfig.uploader.upload(req.file.path, {
                 folder: "movie-recommendation",
             });

@@ -1,6 +1,6 @@
 import { Button, Table, message } from 'antd';
 import { useEffect, useState } from 'react';
-import ArtistModalForm from './artistModalForm';
+import ArtistModalForm from './ArtistModalForm';
 import { useDispatch } from 'react-redux';
 import { setLoading } from '../../../redux/loadersSlice';
 import { DeleteArtist, GetAllArtists } from '../../../apis/artists';
@@ -139,6 +139,7 @@ function Artists() {
           showArtistModal={showArtistModal}
           setShowArtistModal={setShowArtistModal}
           selectedArtist={selectedArtist}
+          setSelectedArtist={setSelectedArtist}
           reloadData={fetchAllArtists}
         />
       )}

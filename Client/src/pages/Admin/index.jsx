@@ -16,6 +16,7 @@ function Admin() {
     <div>
       {user?.isAdmin ? (
         <Tabs
+        className="border border-b-gray-500"
           activeKey={activeTab}
           onChange={(key) => {
             setActiveTab(key);

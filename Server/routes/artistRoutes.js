@@ -45,8 +45,8 @@ router.put("/:id", authMiddlewares, async (req, res) => {
   try {
     const newId = req.params.id;
     const validId = newId.split(":").join("");
-    await Artist.findByIdAndUpdate(validId, req.body);
-    res.json({ message: "Artist updated successfully", success: true });
+    const updatedArtist = await Artist.findByIdAndUpdate(validId, req.body);
+    res.json({ message: "Artist updated successfully", success: true, data: updatedArtist });
   } catch (error) {
     res.status(500).json({ message: error.message, success: false });
   }
@@ -58,8 +58,8 @@ router.delete("/:id", authMiddlewares, async (req, res) => {
   try {
     const newId = req.params.id;
     const validId = newId.split(":").join("");
-    await Artist.findByIdAndDelete(validId, req.body);
-    res.json({ message: "Artist Deleted successfully", success: true });
+    const updatedArtist = await Artist.findByIdAndDelete(validId, req.body);
+    res.json({ message: "Artist Deleted successfully", success: true, data: updatedArtist });
   } catch (error) {
     res.status(500).json({ message: error.message, success: false });
   }

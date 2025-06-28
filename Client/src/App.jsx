@@ -11,6 +11,7 @@ import { useSelector } from "react-redux";
 import Admin from "./pages/Admin";
 
 import MovieForm from "./pages/Admin/Movies/MovieForm";
+import MovieInfo from "./pages/MovieInfo";
 function App() {
   const {loading} =useSelector((state)=>state.loaders)
   return (
@@ -25,7 +26,7 @@ function App() {
         {/* movie route */}
         <Route path="/admin/movies/add" element={<ProtectedPage><MovieForm/></ProtectedPage>} />
         <Route path="/admin/movies/edit/:id" element={<ProtectedPage><MovieForm/></ProtectedPage>} />
-
+        <Route path="/movie/:id" element={<ProtectedPage><MovieInfo/></ProtectedPage>} />
         <Route path="/login" element={<Login/>} />
         <Route path="/register" element={<Register/>} />
       </Routes>

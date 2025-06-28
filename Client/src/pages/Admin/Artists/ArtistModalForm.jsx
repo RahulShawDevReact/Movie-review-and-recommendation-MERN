@@ -14,6 +14,7 @@ function ArtistModalForm({
   setShowArtistModal,
   selectedArtist,
   reloadData,
+  setSelectedArtist,
 }) {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
@@ -34,7 +35,7 @@ function ArtistModalForm({
       }
       reloadData();
       dispatch(setLoading(false));
-      setShowArtistModal(false);
+      // setShowArtistModal(false);
       message.success(response.message);
     } catch (error) {
       message.error(error.message);
@@ -48,15 +49,16 @@ function ArtistModalForm({
       dispatch(setLoading(true));
       const response = await UploadImage(formData);
       if (response.success) {
-        await UpadteArtist(selectedArtist._id, {
+       const upadtedData= await UpadteArtist(selectedArtist._id, {
           ...selectedArtist,
           images: [...(selectedArtist?.images || []), response.data],
         });
       }
-      reloadData();
+      // reloadData();
       dispatch(setLoading(false));
       message.success(response.message);
-      setShowArtistModal(false);
+      setSelectedArtist(upadtedData);
+      // setShowArtistModal(false);
     } catch (error) {
       message.error(error.message);
       dispatch(setLoading(false));
@@ -72,7 +74,8 @@ function ArtistModalForm({
       reloadData();
       dispatch(setLoading(false));
       message.success(response.message);
-      setShowArtistModal(false);
+      // setShowArtistModal(false);
+      setSelectedArtist(response);
     } catch (error) {
       message.error(error.message);
       dispatch(setLoading(false));
@@ -203,7 +206,7 @@ function ArtistModalForm({
               beforeUpload={() => false}
               listType='picture'
             >
-              <Button> upload</Button>
+              <Button> Click to upload</Button>
             </Upload>
           </Item>
         </Tabs>
