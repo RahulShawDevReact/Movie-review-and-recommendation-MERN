@@ -8,6 +8,7 @@ const authMiddlewares = require("../middlewares/authMiddlewares");
 router.post("/add-movie", authMiddlewares, async (req, res) => {
   try {
     req.body.createdBy = req.userId;
+    console.log("req.body", req.body)
     await Movie.create(req.body);
     res.status(200).json({ message: "Movie added sucessfully", success: true });
   } catch (error) {
@@ -19,6 +20,7 @@ router.post("/add-movie", authMiddlewares, async (req, res) => {
 router.get("/", authMiddlewares, async (req, res) => {
   try {
     const movies = await Movie.find()
+      .populate("cast")
       .populate("hero")
       .populate("heroine")
       .populate("director")
@@ -32,16 +34,14 @@ router.get("/", authMiddlewares, async (req, res) => {
 //get movies by id
 
 router.get("/:id", authMiddlewares, async (req, res) => {
-  console.log("Hello========")
   try {
-    console.log("movie",req.params)
     const movie = await Movie.findById(req.params.id)
+      .populate("cast")
       .populate("hero")
       .populate("heroine")
       .populate("director")
       .populate("createdBy");
-      console.log("movieID=========",movie)
-    res.status(200).json({ data:movie, success: true });
+    res.status(200).json({ data: movie, success: true });
   } catch (error) {
     res.status(500).json({ message: error.message, success: false });
   }
@@ -50,10 +50,19 @@ router.get("/:id", authMiddlewares, async (req, res) => {
 //Update movie
 router.put("/:id", authMiddlewares, async (req, res) => {
   try {
-    await Movie.findByIdAndUpdate(req.params.id);
+    const updatedMovie = await Movie.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      // { ...req.body, cast: "" },
+      { new: true }
+    );
     res
       .status(200)
-      .json({ message: "Movie Updated sucessfully", success: true });
+      .json({
+        message: "Movie Updated sucessfully",
+        data: updatedMovie,
+        success: true,
+      });
   } catch (error) {
     res.status(500).json({ message: error.message, success: false });
   }
@@ -61,16 +70,14 @@ router.put("/:id", authMiddlewares, async (req, res) => {
 
 //Delete movie
 router.delete("/:id", authMiddlewares, async (req, res) => {
-  console.log("delete called")
-    try {
-      console.log("id in delete movie route",req.params.id)
-      await Movie.findByIdAndDelete(req.params.id);
-      res
-        .status(200)
-        .json({ message: "Movie Deleted sucessfully", success: true });
-    } catch (error) {
-      res.status(500).json({ message: error.message, success: false });
-    }
-  });
+  try {
+    const updateMovie = await Movie.findByIdAndDelete(req.params.id, { new: true });
+    res
+      .status(200)
+      .json({ message: "Movie Deleted sucessfully", success: true, data: updateMovie });
+  } catch (error) {
+    res.status(500).json({ message: error.message, success: false });
+  }
+});
 
-  module.exports=router
+module.exports = router;
