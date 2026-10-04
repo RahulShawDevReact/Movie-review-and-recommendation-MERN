@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 const movieSchema = new mongoose.Schema(
   {
     name: {
@@ -15,17 +15,17 @@ const movieSchema = new mongoose.Schema(
     },
     hero: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "artists",
+      ref: 'artists',
       required: true,
     },
     heroine: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "artists",
+      ref: 'artists',
       required: true,
     },
     director: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "artists",
+      ref: 'artists',
       required: true,
     },
     genre: {
@@ -46,15 +46,20 @@ const movieSchema = new mongoose.Schema(
     },
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "users",
+      ref: 'users',
       required: true,
     },
     cast: {
       type: [mongoose.Schema.Types.ObjectId],
-      ref: "artists",
+      ref: 'artists',
       required: false,
+    },
+    rating: {
+      type: Number,
+      required: false,
+      default: 0,
     },
   },
   { timestamps: true }
 );
-module.exports = mongoose.model("movies", movieSchema);
+module.exports = mongoose.model('movies', movieSchema);
