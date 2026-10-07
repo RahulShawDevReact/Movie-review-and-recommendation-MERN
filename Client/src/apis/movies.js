@@ -1,29 +1,29 @@
-import apiRequest from ".";
+import apiRequest from '.';
 
 export const AddMovie = async (payload) => {
   return await apiRequest({
-    method: "POST",
-    endPoint: "/api/movies/add-movie",
+    method: 'POST',
+    endPoint: '/api/movies/add-movie',
     payload,
   });
 };
 
 export const GetAllMovies = async () => {
   return await apiRequest({
-    method: "GET",
-    endPoint: "/api/movies/",
+    method: 'GET',
+    endPoint: '/api/movies/',
   });
 };
 
 export const GetMovieById = async (id) => {
   return await apiRequest({
-    method: "GET",
+    method: 'GET',
     endPoint: `/api/movies/${id}`,
   });
 };
 export const UpdateMovie = async (id, data) => {
   return await apiRequest({
-    method: "PUT",
+    method: 'PUT',
     endPoint: `/api/movies/${id}`,
     payload: data,
   });
@@ -31,7 +31,13 @@ export const UpdateMovie = async (id, data) => {
 
 export const DeleteMovie = async (id) => {
   return await apiRequest({
-    method: "DELETE",
+    method: 'DELETE',
     endPoint: `/api/movies/${id}`,
+  });
+};
+export const GetMoviesByArtistId = async (id) => {
+  return await apiRequest({
+    method: 'GET',
+    endPoint: `/api/movies/get-movies-by-artist/${id}`,
   });
 };

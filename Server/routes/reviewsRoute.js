@@ -3,19 +3,20 @@ const express = require('express');
 const router = express.Router();
 const Movies = require('../models/movieModels');
 const authMiddlewares = require('../middlewares/authMiddlewares');
+const mongoose = require('mongoose');
 //Add Review
 router.post('/add', authMiddlewares, async (req, res) => {
   try {
-    console.log('req.body', req.body);
     req.body.user = req.userId;
     const review = new Review(req.body);
     await review.save();
 
     //Calculate average rating and update in movie
+    const movieObjectId = new mongoose.Types.ObjectId(req.body.movie);
     const averageRating = await Review.aggregate([
       //Condition for matching
       {
-        $match: { movie: req.body.movie },
+        $match: { movie: movieObjectId },
       },
       {
         $group: {
@@ -24,7 +25,6 @@ router.post('/add', authMiddlewares, async (req, res) => {
         },
       },
     ]);
-    console.log('data-------');
     const avgRatingValue = averageRating[0]?.averageRating || 0;
     await Movies.findByIdAndUpdate(req.body.movie, { rating: avgRatingValue });
     res.status(200).json({
@@ -39,11 +39,11 @@ router.post('/add', authMiddlewares, async (req, res) => {
 });
 
 //Get all reviews by movie id
-router.get('/get', async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     //const reviesws = await Review.find({movie: req.params.id });
-    const { movie } = req.query;
-    const reviews = await Review.find({ movie })
+    // const { movie } = req.query;
+    const reviews = await Review.find(req.params)
       .populate('user')
       .populate('movie');
     res.status(200).json({ data: reviews, success: true });

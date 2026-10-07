@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useEffect } from 'react';
 import { message } from 'antd';
 import { GetCurrentUser } from '../apis/users';
