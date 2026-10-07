@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { setLoading } from '../../redux/loadersSlice';
 import { Rate, message } from 'antd';
 import { GetAllMovies } from '../../apis/movies';
 import { useNavigate } from 'react-router-dom';
 const Home = () => {
   const navigate = useNavigate();
-  const { user } = useSelector((state) => state.users);
+  // const { user } = useSelector((state) => state.users);
   const [movies, setMovies] = useState();
 
   const dispatch = useDispatch();
@@ -24,7 +24,6 @@ const Home = () => {
   useEffect(() => {
     getAllMovies();
   }, []);
-  console.log('ddd', movies);
   return (
     <div className='grid grid-cols-1 sm-grid-cols-2 lg:grid-cols-4 gap-10 text-gray-600'>
       {movies &&

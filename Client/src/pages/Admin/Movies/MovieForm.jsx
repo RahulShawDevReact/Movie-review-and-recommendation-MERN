@@ -7,7 +7,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { setLoading } from '../../../redux/loadersSlice';
 import { GetAllArtists } from '../../../apis/artists';
 import { AddMovie, GetMovieById, UpdateMovie } from '../../../apis/movies';
-import moment from 'moment';
 import { UploadImage } from '../../../apis/images';
 
 function MovieForm() {
@@ -22,7 +21,6 @@ function MovieForm() {
     try {
       dispatch(setLoading(true));
       let response;
-      console.log('values', values);
       if (params?.id) {
         response = await UpdateMovie(params.id, values);
       } else {
@@ -58,7 +56,7 @@ function MovieForm() {
     try {
       dispatch(setLoading(true));
       const response = await GetMovieById(id);
-      console.log('res', response);
+      //commenting this because it is giving error when we are trying to update the movie and not changing the date format
       // response.data.releaseDate = moment(response.data.releaseDate).format(
       //   'DD-MM-YYYY',
       // );
@@ -80,7 +78,7 @@ function MovieForm() {
       dispatch(setLoading(true));
       const response = await UploadImage(formData);
       if (response.success) {
-       const response2= await UpdateMovie(movie._id, {
+        const response2 = await UpdateMovie(movie._id, {
           ...movie,
           posters: [...(movie?.posters || []), response.data],
         });
@@ -125,7 +123,6 @@ function MovieForm() {
   useEffect(() => {
     fetchData();
   }, [fetchData]);
-  console.log('movie', movie);
   return (
     (movie || !params.id) && (
       <div>
@@ -326,7 +323,12 @@ function MovieForm() {
             </Upload>
             <div className='flex justify-end gap-5 mt-5'>
               <Button onClick={() => navigate('/admin')}>Cancel</Button>
-              <Button  type='primary' onClick={()=>{imageUpload()}}>
+              <Button
+                type='primary'
+                onClick={() => {
+                  imageUpload();
+                }}
+              >
                 Upload
               </Button>
             </div>

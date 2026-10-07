@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Button, message, Rate } from 'antd';
 import { GetMovieById } from '../../apis/movies';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getDateFormat, getDateTimeFormat } from '../../helpers';
 import { setLoading } from '../../redux/loadersSlice';
 import ReviewModal from './reviewModal';
+import { GetAllReviews } from '../../apis/review';
 
 // import { GetAllReviews } from '../../apis/reviews';
 
@@ -21,8 +22,8 @@ function MovieInfo() {
     try {
       dispatch(setLoading(true));
       const response = await GetMovieById(id);
-      // const reviewsResponse = await GetAllReviews({ movie: id });
-      // setReviews(reviewsResponse.data);
+      const reviewsResponse = await GetAllReviews({ movie: id });
+      setReviews(reviewsResponse.data);
       setMovie(response.data);
       dispatch(setLoading(false));
     } catch (error) {
@@ -74,9 +75,11 @@ function MovieInfo() {
                 <span className='capitalize'>{movie?.director?.name}</span>
               </div>
 
-              <div className='flex justify-between'>
+              <div className='grid grid-cols-2 w-full'>
                 <span>Hero</span>
-                <span className='capitalize'>{movie?.hero?.name}</span>
+                <span className='capitalize text-right'>
+                  {movie?.hero?.name}
+                </span>
               </div>
 
               <div className='flex justify-between'>

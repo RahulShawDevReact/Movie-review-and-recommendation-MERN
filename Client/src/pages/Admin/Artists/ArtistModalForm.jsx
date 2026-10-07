@@ -7,6 +7,7 @@ import { AddArtist, UpadteArtist } from '../../../apis/artists';
 import { UploadImage } from '../../../apis/images';
 import moment from 'moment';
 import Item from 'antd/es/list/Item';
+import PropTypes from 'prop-types';
 import { useState } from 'react';
 
 function ArtistModalForm({
@@ -48,8 +49,9 @@ function ArtistModalForm({
       formData.append('image', file);
       dispatch(setLoading(true));
       const response = await UploadImage(formData);
+      let updatedData = null;
       if (response.success) {
-       const upadtedData= await UpadteArtist(selectedArtist._id, {
+        updatedData = await UpadteArtist(selectedArtist._id, {
           ...selectedArtist,
           images: [...(selectedArtist?.images || []), response.data],
         });
@@ -57,7 +59,7 @@ function ArtistModalForm({
       // reloadData();
       dispatch(setLoading(false));
       message.success(response.message);
-      setSelectedArtist(upadtedData);
+      if (updatedData) setSelectedArtist(updatedData);
       // setShowArtistModal(false);
     } catch (error) {
       message.error(error.message);
@@ -214,5 +216,22 @@ function ArtistModalForm({
     </div>
   );
 }
+
+ArtistModalForm.propTypes = {
+  showArtistModal: PropTypes.bool.isRequired,
+  setShowArtistModal: PropTypes.func.isRequired,
+  selectedArtist: PropTypes.shape({
+    _id: PropTypes.string,
+    dob: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)]),
+    images: PropTypes.arrayOf(PropTypes.string),
+    name: PropTypes.string,
+    debutYear: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    profession: PropTypes.string,
+    debutMovie: PropTypes.string,
+    bio: PropTypes.string,
+  }),
+  reloadData: PropTypes.func.isRequired,
+  setSelectedArtist: PropTypes.func.isRequired,
+};
 
 export default ArtistModalForm;

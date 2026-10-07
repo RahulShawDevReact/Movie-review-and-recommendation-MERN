@@ -18,7 +18,6 @@ function ReviewModal({
 
   const AddReview = async () => {
     try {
-      console.log('movie', movie);
       dispatch(setLoading(true));
       // let response = null;
       // if (selectedReview) {
@@ -35,7 +34,6 @@ function ReviewModal({
         comment,
       });
       // }
-      console.log('response', response);
       message?.success(response.message);
       reloadData();
       setShowReviewForm(false);
